@@ -100,3 +100,39 @@ if ( !function_exists ( 'piggly_view_collection' ) ) :
         return $public->collection($limit, $days); 
     }
 endif;
+
+/**
+ * Loads the welcome or upgraded page when needed.
+ * 
+ * @return  void
+ * @since   1.0.1 Fixed Welcome & Upgraded page loading
+ */
+function piggly_views_welcome ()
+{
+    if ( ! get_transient( PIGGLY_VIEWS_NAME . '_welcome_screen' ) ) :
+        return;
+    endif;
+
+    // Delete the redirect transient
+    delete_transient ( PIGGLY_VIEWS_NAME . '_welcome_screen' );
+
+    // Return if activating from network, or bulk
+    if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) :
+        return;
+    endif;
+    
+    if ( ! get_transient( PIGGLY_VIEWS_NAME . '_upgraded_screen' ) ) :
+        wp_safe_redirect( add_query_arg( array( 'page' => 'piggly-views-welcome' ), admin_url( 'admin.php' ) ) );
+    else :
+        wp_safe_redirect( add_query_arg( array( 'page' => 'piggly-views-updgraded' ), admin_url( 'admin.php' ) ) );
+
+        // Delete the upgraded transient
+        delete_transient ( PIGGLY_VIEWS_NAME . '_upgraded_screen' );
+    endif;
+}
+
+add_action ( 'admin_init', 'piggly_views_welcome' );
+        
+// Removes welcome and upgraded menus
+$admin = new PigglyViews_Admin( PIGGLY_VIEWS_NAME, PIGGLY_VIEWS_VERSION, null );
+add_action ( 'admin_head', array( &$admin, 'destroy_menus' ) );

@@ -6,6 +6,7 @@
  * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @since      1.0.0
+ * @since      1.0.1 Fixed Welcome & Upgraded page loading
  * @package    PigglyViews
  * @subpackage PigglyViews/admin
  * @author     Piggly DEV <dev@piggly.com.br>
@@ -48,7 +49,7 @@ class PigglyViews_Admin
      * @var      mixed    $nounce       Nounce is valid or not.
      */
     private $nounce;
-
+    
     /**
      * Initialize the class and set its properties.
      * 
@@ -76,14 +77,6 @@ class PigglyViews_Admin
     public function enqueue_styles() 
     {
         wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/piggly-views-admin.css', array(), $this->version, 'all' );
-        /*
-        $page = filter_input ( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
-        
-        if ( isset($page) && ( $page === 'piggly-view-welcome' || $page === 'piggly-view-upgraded' ) ) :
-            wp_enqueue_style( $this->plugin_name . '_welcome', plugin_dir_url( __FILE__ ) . 'css/piggly-views-welcome.css', array(), $this->version, 'all' );
-        endif;
-         * 
-         */
     }
 
     /**
@@ -104,10 +97,10 @@ class PigglyViews_Admin
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1 Fixed Welcome & Upgraded page loading
      */
     public function register_actions ()
     {
-        $this->setup_welcome();
         $this->loader->add_action ( 'admin_menu', $this, 'setup_menus' );
         $this->loader->add_action ( 'add_meta_boxes', $this, 'metabox' );
         $this->loader->add_action ( 'save_post', $this, 'save_metabox' );
@@ -141,52 +134,18 @@ class PigglyViews_Admin
     }
     
     /**
-     * Check if need to show the Welcome (or Upgraded) page.
-     * 
-     * @return  void
-     * @access  public
-     * @since   1.0.0
-     */
-    public function setup_welcome ()
-    {
-        // If no transient to Welcome Screen, return
-        if ( ! get_transient( PIGGLY_VIEWS_NAME . '_welcome_screen' ) ) :
-            return;
-        endif;
-        
-        // Delete the redirect transient
-        delete_transient ( PIGGLY_VIEWS_NAME . '_welcome_screen' );
-        
-        // Return if activating from network, or bulk
-        if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) :
-            return;
-        endif;
-        
-        if ( ! get_transient( PIGGLY_VIEWS_NAME . '_upgraded_screen' ) ) :
-            wp_safe_redirect( add_query_arg( array( 'page' => 'piggly-views-welcome' ), admin_url( 'index.php' ) ) );
-            $this->loader->add_action ( 'admin_menu', $this, 'create_welcome_menu' );
-        else :
-            wp_safe_redirect( add_query_arg( array( 'page' => 'piggly-views-updgraded' ), admin_url( 'index.php' ) ) );
-            $this->loader->add_action ( 'admin_menu', $this, 'create_upgraded_menu' );
-            
-            // Delete the upgraded transient
-            delete_transient ( PIGGLY_VIEWS_NAME . '_upgraded_screen' );
-        endif;
-        
-        $this->loader->add_action ( 'admin_head', $this, 'destroy_menus' );
-    }
-    
-    /**
      * Remove the Welcome and Upgraded menu.
      * 
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1 Fixed Welcome & Upgraded page loading
      */
     public function destroy_menus ()
     {
-        remove_submenu_page( 'index.php', 'piggly-views-welcome' );
-        remove_submenu_page( 'index.php', 'piggly-views-updgraded' );
+        global $submenu;
+        
+        unset ( $submenu['piggly-views'] );
     }
     
     /**
@@ -195,16 +154,18 @@ class PigglyViews_Admin
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1 Fixed Welcome & Upgraded page loading
      */
     public function create_menu_welcome ()
     {
-        add_dashboard_page
+        add_submenu_page
             (
+                'piggly-views',
                 __( 'Welcome to Piggly Views', PIGGLY_VIEWS_NAME ),
                 __( 'Welcome to Piggly Views', PIGGLY_VIEWS_NAME ),
-                'read',
+                'activate_plugins',
                 'piggly-views-welcome',
-                'include_welcome_page'
+                array ( &$this, 'include_welcome_page' )
             );
     }
     
@@ -214,16 +175,18 @@ class PigglyViews_Admin
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1 Fixed Welcome & Upgraded page loading
      */
     public function create_upgraded_menu ()
     {
-        add_dashboard_page
+        add_submenu_page
             (
+                'piggly-views',
                 __( 'What is new in Piggly Views', PIGGLY_VIEWS_NAME ),
                 __( 'What is new in Piggly Views', PIGGLY_VIEWS_NAME ),
-                'read',
+                'activate_plugins',
                 'piggly-views-upgraded',
-                'include_upgraded_page'
+                array ( &$this, 'include_upgraded_page' )
             );
     }
     
@@ -253,6 +216,7 @@ class PigglyViews_Admin
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1 Fixed Welcome & Upgraded page loading
      */
     public function setup_menus ()
     {
@@ -266,6 +230,12 @@ class PigglyViews_Admin
                 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDgwIDEwODAiPjx0aXRsZT5QaWdnbHkgVmlldzwvdGl0bGU+PHBhdGggZD0iTTU0MCw4MDcuMTRjLTY2LjUxLDAtMTI5LjgxLTEzLjY1LTE4OC4xNC00MC41OC00Ni41OC0yMS41MS05MC01MS40NS0xMjkuMTUtODktNjYuNDctNjMuODEtOTcuMjMtMTI3LjExLTk4LjUxLTEyOS43OEwxMjAuNDcsNTQwbDMuNzMtNy43OGMxLjI4LTIuNjcsMzItNjYsOTguNTEtMTI5Ljc4LDM5LjEyLTM3LjU1LDgyLjU3LTY3LjQ5LDEyOS4xNS04OSw1OC4zMy0yNi45MywxMjEuNjMtNDAuNTgsMTg4LjE0LTQwLjU4czEyOS44MywxMy42NSwxODguMjEsNDAuNThjNDYuNjEsMjEuNSw5MC4xLDUxLjQ1LDEyOS4yOCw4OSw2Ni41OCw2My44MSw5Ny40NSwxMjcuMSw5OC43MywxMjkuNzZMOTYwLDU0MGwtMy43Niw3LjgxYy0xLjI4LDIuNjYtMzIuMTUsNjYtOTguNzMsMTI5Ljc2LTM5LjE4LDM3LjU0LTgyLjY3LDY3LjQ5LTEyOS4yOCw4OUM2NjkuODMsNzkzLjQ5LDYwNi41MSw4MDcuMTQsNTQwLDgwNy4xNFpNMTYwLjc2LDU0MGMxMC4wNywxOC4yMiwzOC43OCw2NS42OCw4Ny44MywxMTIuNTFDMzMxLjA1LDczMS4yMiw0MjkuMDksNzcxLjE0LDU0MCw3NzEuMTRjMTExLjM2LDAsMjA5LjgtNDAuMjIsMjkyLjU4LTExOS41Niw0OC43My00Ni43MSw3Ny4wNy05My40Nyw4Ny4wNy0xMTEuNTYtMTAuMTItMTguMjUtMzguOTEtNjUuNjktODgtMTEyLjVDNzQ5LDM0OC43OCw2NTAuOTEsMzA4Ljg2LDU0MCwzMDguODZjLTExMS4zNiwwLTIwOS43Miw0MC4yMi0yOTIuMzYsMTE5LjU1QzE5OSw0NzUuMTMsMTcwLjcyLDUyMS45MSwxNjAuNzYsNTQwWiIgc3R5bGU9ImZpbGw6IzMyNDQ1NCIvPjxwYXRoIGQ9Ik01NDAsNzM2LjkzYy0xMDguNTksMC0xOTYuOTMtODguMzQtMTk2LjkzLTE5Ni45M1M0MzEuNDEsMzQzLjA3LDU0MCwzNDMuMDdBMTk3LDE5NywwLDAsMSw3MjIuNTgsNDY2LjEyYTE4LDE4LDAsMSwxLTMzLjM3LDEzLjUxQTE2MC4zMiwxNjAuMzIsMCwwLDAsNTQwLDM3OS4wN2MtODguNzQsMC0xNjAuOTMsNzIuMTktMTYwLjkzLDE2MC45M1M0NTEuMjYsNzAwLjkzLDU0MCw3MDAuOTNBMTYwLjMyLDE2MC4zMiwwLDAsMCw2ODkuMjEsNjAwLjM3YTE4LDE4LDAsMSwxLDMzLjM3LDEzLjUxQTE5NywxOTcsMCwwLDEsNTQwLDczNi45M1oiIHN0eWxlPSJmaWxsOiMzMjQ0NTQiLz48cGF0aCBkPSJNNjEwLjIxLDU0MGwzNS42Mi0yNWExMDguNzEsMTA4LjcxLDAsMSwwLDAsNTBaIiBzdHlsZT0iZmlsbDojMzI0NDU0Ii8+PC9zdmc+',
                 66
             );
+        
+        if ( ! get_transient( PIGGLY_VIEWS_NAME . '_upgraded_screen' ) ) :
+            $this->create_menu_welcome();
+        else :
+            $this->create_upgraded_menu();
+        endif;    
     }
     
     /**
