@@ -1,0 +1,109 @@
+.piggly-views
+{
+    display: table; 
+    width: 100%; 
+    max-width: 840px; 
+    margin: 12px; 
+    background-color: #FFF;
+}
+
+.piggly-views .wrapper
+{
+    padding: 24px; 
+}
+
+.piggly-views .input
+{
+    width: 100%;
+    margin: 12px 0;
+    padding: 18px 12px;
+    font-size: 14px;
+    line-height: 12px;
+    box-shadow: none;
+}
+
+.piggly-views .message
+{
+    padding: 24px;
+    font-size: 32px;
+    text-align: center;
+    color: rgba(0,0,0,.60);
+    font-weight: 300;
+    line-height: 32px;
+}
+
+.piggly-views .success
+{
+    background-color: #cddc39;
+}
+
+.piggly-views .info
+{
+    background-color: #00bcd4;
+}
+
+.piggly-views .warning
+{
+    background-color: #ffc107;
+}
+
+.piggly-views .error
+{
+    background-color: #f44336;
+}
+
+.piggly-views svg
+{
+    display: table; 
+    margin: 48px auto 0; 
+    width: 72px;
+}
+
+.piggly-views .caption
+{
+    display: table; 
+    margin: 12px auto; 
+    font-size: 12px; 
+    text-transform: uppercase; 
+    letter-spacing: 3px;
+}
+
+.piggly-views .caption strong
+{
+    font-weight: bold;
+}
+
+.piggly-views pre
+{
+    margin: 24px 0; 
+    padding: 24px; 
+    background: #ececec;
+}
+
+.piggly-views h1, .piggly-views h2, .piggly-views h3, 
+.piggly-views h4, .piggly-views h5, .piggly-views h6
+{
+    text-align: center;
+    margin: 24px auto;
+}
+
+.piggly-views p
+{
+    font-size: 14px;
+}
+
+.piggly-views label
+{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+}
+
+.piggly-views .divisor
+{
+    width: 48px;
+    height: 1px;
+    display: table;
+    margin: 42px auto;
+    background-color: #ececec;
+}
