@@ -7,6 +7,7 @@
  *
  * @since      1.0.0
  * @since      1.0.1 Fixed Welcome & Upgraded page loading
+ * @since      1.0.2 Fixed Keep Database settings
  * @package    PigglyViews
  * @subpackage PigglyViews/admin
  * @author     Piggly DEV <dev@piggly.com.br>
@@ -244,6 +245,7 @@ class PigglyViews_Admin
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.0.2 Fixed Keep Database settings
      */
     public function display_options ()
     {         
@@ -267,7 +269,7 @@ class PigglyViews_Admin
             $cache          = filter_input ( INPUT_POST, PIGGLY_VIEWS_NAME.'_cache', FILTER_VALIDATE_INT, array("options" => array( "default" => 0 ) )  );
             $cache_hour     = filter_input ( INPUT_POST, PIGGLY_VIEWS_NAME.'_cache_hour', FILTER_VALIDATE_INT, array("options" => array( "default" => 24 ) )  );
             $keep_options   = filter_input ( INPUT_POST, PIGGLY_VIEWS_NAME.'_keep_options', FILTER_VALIDATE_INT, array("options" => array( "default" => 0 ) )  );
-            $keep_db        = filter_input ( INPUT_POST, PIGGLY_VIEWS_NAME.'_keep_database', FILTER_VALIDATE_INT, array("options" => array( "default" => 0 ) )  );
+            $keep_db        = filter_input ( INPUT_POST, PIGGLY_VIEWS_NAME.'_keep_db', FILTER_VALIDATE_INT, array("options" => array( "default" => 0 ) )  );
 
             if ( isset ( $show_column ) ) :
                 $current_settings['show_column'] = $show_column === 0 ? false : true;
