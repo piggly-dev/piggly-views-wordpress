@@ -6,6 +6,7 @@
  * enqueue the public-facing stylesheet and JavaScript.
  *
  * @since      1.0.0
+ * @since      1.0.1                            Upgraded to get different types of posts.
  * @package    PigglyViews
  * @subpackage PigglyViews/public
  * @author     Piggly DEV <dev@piggly.com.br>
@@ -219,19 +220,34 @@ class PigglyViews_Public
      * Get a collection of most views posts. Where $days is the range between NOW and X($days) days.
      * 
      * @global  object  $wpdb       Database object.
-     * @param   type    $limit      Number of posts to return.
-     * @param   type    $days       Range of days to filter.
+     * @param   int     $limit      Number of posts to return.
+     * @param   int     $days       Range of days to filter.
+     * @param   array   $types      Post types to get, default is 'POST'.
      * @return  array               Array with Posts ID and Author ID.
      * @access  public
      * @since   1.0.0
+     * @since   1.0.1   Upgraded to get different types of posts.
      */
-    public function collection ( $limit = 5, $days = 30 )
+    public function collection ( $limit = 5, $days = 30, $types = array() )
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pigglyviews';
         
+        if ( !empty($types) ) :
+            $types_ = [];
+        
+            foreach ( $types as $type ):
+                $types_[] = 'post_type LIKE \'' . $type . '\'';
+            endforeach;
+            
+            $types_ = implode( ' OR ', $types_ );
+            $types_ = '(' . $types_ . ')';
+        else:
+            $types_ = '(post_type LIKE \'post\')';
+        endif;
+        
         return $wpdb->get_results
-               ( "SELECT v.post_id, p.post_author FROM $table_name v INNER JOIN wp_posts p ON ( v.post_id = p.ID ) WHERE p.post_date BETWEEN DATE_SUB(NOW(), INTERVAL $days DAY) AND NOW( ) ORDER BY v.views, v.last_viewed DESC LIMIT $limit;" );
+               ( "SELECT v.post_id, p.post_author FROM $table_name v INNER JOIN wp_posts p ON ( v.post_id = p.ID ) WHERE (p.post_date BETWEEN DATE_SUB(NOW(), INTERVAL $days DAY) AND NOW()) AND $types_ ORDER BY v.views DESC LIMIT $limit;" );
     }
 
 }

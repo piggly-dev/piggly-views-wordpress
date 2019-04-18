@@ -10,11 +10,11 @@ The plugin is quite simple to use. See below.
 ## Some additional resources
 
 * You can use the shortcode `[piggly_view]` to get views to the current post OR use `[piggly_view id="post_id"]` to a specific post. It will return the number of views following the format set in the settings.
-* You can get a collection of most viewed posts by using the method `piggly_view_collection($limit,$days)`. Where `$days` is the range between NOW and X(`$days`) days and `$limit` is the number of posts.
+* You can get a collection of most viewed posts by using the method `piggly_view_collection($limit,$days)`. Where `$days` is the range between NOW and X(`$days`) days, `$limit` is the number of posts and `$types` is one or more post types slug into an array, such as: `post`, `page` or `attachment`.
 
 ## Getting the most viewed posts
 
-An easy way to get the most viewed posts is using the global function `piggly_view_collection()`. The default days values is 30 and default limit value is 5.
+An easy way to get the most viewed posts is using the global function `piggly_view_collection()`. The default `$days` values is 30, default `$limit` value is 5 and default `$types` array is post.
 
 ```
 // 10 most viewed posts in the last 180 days.
@@ -60,6 +60,14 @@ From your WordPress administration panel go to `Plugins > Installed Plugins` and
 * Flush cache after X hours.
 
 * Keep options and/or table when uninstall the plugin.
+
+### Changelog
+
+#### 1.0.1
+Now you can select one or more post type when getting a collection with `piggly_views_colletion`.
+
+#### 1.0.0
+Initial release.
 
 ### Developers
 

@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) )
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  */
-define( 'PIGGLY_VIEWS_VERSION', '1.0.0' );
+define( 'PIGGLY_VIEWS_VERSION', '1.0.1' );
 
 /**
  * Currently database version.

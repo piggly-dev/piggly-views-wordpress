@@ -1,11 +1,12 @@
-=== Plugin Name ===
+=== Piggly View ===
 Contributors: pigglydev
 Donate link: https://dev.piggly.com.br/
 Tags: piggly, views, tracking
+Version: 1.0.1
 Requires at least: 4.1
 Requires PHP: 5.2.4
 Tested up to: 4.9.4
-Stable tag: 1.0.2
+Stable tag: 1.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,16 +20,15 @@ The plugin is quite simple to use. See below.
 2. In the Posts View Table you will see the View column. You can remove it in configurations.
 3. All views will be cached for 24 hours. You can disabled it or change the flush cache hour.
 
-= Some additional resources
+= Some additional resources =
 
 * You can use the shortcode `[piggly_view]` to get views to the current post OR use `[piggly_view id="post_id"]` to a specific post. It will return the number of views following the format set in the settings.
-* You can get a collection of most viewed posts by using the method `piggly_view_collection($limit,$days)`. Where `$days` is the range between NOW and X(`$days`) days and `$limit` is the number of posts.
+* You can get a collection of most viewed posts by using the method `piggly_view_collection($limit,$days)`. Where `$days` is the range between NOW and X(`$days`) days, `$limit` is the number of posts  and `$types` is one or more post types slug into an array, such as: `post`, `page` or `attachment`.
 
-= Getting the most viewed posts
+= Getting the most viewed posts =
 
-An easy way to get the most viewed posts is using the global function `piggly_view_collection()`. The default days values is 30 and default limit value is 5.
+An easy way to get the most viewed posts is using the global function `piggly_view_collection()`. The default `$days` values is 30, default `$limit` value is 5 and default `$types` array is post.
 
-```
 // 10 most viewed posts in the last 180 days.
 $most_viewed = piggly_view_collection( 10, 180 );
 
@@ -37,7 +37,6 @@ if ( !empty( $most_viewed ) ) :
         $postID = $post->post_id;
     endforeach;
 endif;
-```
 
 == Installation ==
 
@@ -52,7 +51,7 @@ e.g.
 
 From your WordPress administration panel go to `Plugins > Installed Plugins` and scroll down until you find `Piggly Views`. You will need to activate it first, then click on `Settings` to configure it.
 
-= Configuration
+= Configuration =
 
 * Display or not View Column in Post Table.
 * Disable tracking for Logged Users.
@@ -80,6 +79,9 @@ It's a easy way to tracking views for a post. It is useful to have another more 
 3. Piggly View setting in Post Page.
 
 == Changelog ==
+
+= 1.0.1 =
+Now you can select one or more post type when getting a collection with `piggly_views_colletion`.
 
 = 1.0.0 =
 Initial release.

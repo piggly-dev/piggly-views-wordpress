@@ -35,7 +35,7 @@
 
         <ul>
             <li><?php _e('You can use the shortcode <code>[piggly_view]</code> to get views to the current post OR use <code>[piggly_view id="post_id"]</code> to a specific post. It will return the number of views following the format set in the settings.', PIGGLY_VIEWS_NAME ); ?></li>
-            <li><?php _e('You can get a collection of most viewed posts by using the method <code>piggly_view_collection($limit,$days)</code>. Where <code>$days</code> is the range between NOW and X(<code>$days</code>) days and <code>$limit</code> is the number of posts.', PIGGLY_VIEWS_NAME ); ?></li>
+            <li><?php _e('You can get a collection of most viewed posts by using the method <code>piggly_view_collection($limit,$days,$types)</code>. Where <code>$days</code> is the range between NOW and X(<code>$days</code>) days, <code>$limit</code> is the number of posts and <code>$types</code> is one or more post types slug into an array, such as: <code>post</code>, <code>page</code> or <code>attachment</code>.', PIGGLY_VIEWS_NAME ); ?></li>
         </ul>
 
         <h2><?php _e('Most Viewed') ?></h2>

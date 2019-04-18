@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Piggly View 1.0\n"
-"POT-Creation-Date: 2019-04-14 23:47-0300\n"
-"PO-Revision-Date: 2019-04-14 23:48-0300\n"
+"POT-Creation-Date: 2019-04-18 00:40-0300\n"
+"PO-Revision-Date: 2019-04-18 00:42-0300\n"
 "Last-Translator: \n"
 "Language-Team: Piggly\n"
 "Language: pt_BR\n"
@@ -15,26 +15,25 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-piggly-views-admin.php:203
-#: admin/class-piggly-views-admin.php:204
+#: admin/class-piggly-views-admin.php:165
+#: admin/class-piggly-views-admin.php:166
 msgid "Welcome to Piggly Views"
 msgstr "Bem-vindo ao Piggly Views"
 
-#: admin/class-piggly-views-admin.php:222
-#: admin/class-piggly-views-admin.php:223
+#: admin/class-piggly-views-admin.php:186
+#: admin/class-piggly-views-admin.php:187
 msgid "What is new in Piggly Views"
 msgstr "O que há de novo no Piggly Views"
 
-#: admin/class-piggly-views-admin.php:377
+#: admin/class-piggly-views-admin.php:371
 msgid "Views"
 msgstr "Visualizações"
 
-#: admin/class-piggly-views-admin.php:418
+#: admin/class-piggly-views-admin.php:412
 msgid "Not tracking"
 msgstr "Não está rastreando"
 
 #: admin/partials/piggly-views-admin-display.php:26
-#: admin/partials/piggly-views-admin-welcome.php:26
 msgid "About"
 msgstr "Sobre"
 
@@ -86,14 +85,18 @@ msgstr ""
 #: admin/partials/piggly-views-admin-welcome.php:38
 msgid ""
 "You can get a collection of most viewed posts by using the method "
-"<code>piggly_view_collection($limit,$days)</code>. Where <code>$days</code> "
-"is the range between NOW and X(<code>$days</code>) days and <code>$limit</"
-"code> is the number of posts."
+"<code>piggly_view_collection($limit,$days,$types)</code>. Where <code>$days</"
+"code> is the range between NOW and X(<code>$days</code>) days, <code>$limit</"
+"code> is the number of posts and <code>$types</code> is one or more post "
+"types slug into an array, such as: <code>post</code>, <code>page</code> or "
+"<code>attachment</code>."
 msgstr ""
 "Você pode obter uma coleção das postagens mais visualizadas usando o método "
 "<code>piggly_view_collection($limit,$days)</code> . Onde <code>$days</code> "
-"é o intervalo entre os dias AGORA e X (<code>$days</code>) dias e <code>"
-"$limit</code> é o número de postagens."
+"é o intervalo entre os dias AGORA e X (<code>$days</code>) dias, <code>"
+"$limit</code> é o número de postagens e <code>$types</code> é um ou mais "
+"tipos de postagens dentro de um array, como: <code>post</code>, <code>page</"
+"code> ou <code>attachment</code>."
 
 #: admin/partials/piggly-views-admin-display.php:41
 #: admin/partials/piggly-views-admin-welcome.php:41
@@ -168,6 +171,23 @@ msgstr "Não Autorizado"
 msgid "Sorry but you can't use this resource."
 msgstr "Desculpe, mas você não pode utilizar esse recurso."
 
+#: admin/partials/piggly-views-admin-upgraded.php:26
+msgid "What's new?"
+msgstr "O que há de novo?"
+
+#: admin/partials/piggly-views-admin-upgraded.php:28
+msgid ""
+"A new feature was added! Now you can select one or more post type when "
+"getting a collection with <code>piggly_views_colletion</code>"
+msgstr ""
+"Um novo recurso foi adicionado! Agora você pode selecionar um ou mais tipos "
+"de publicações quando obter uma coleção utilizando "
+"<code>piggly_views_colletion</code>"
+
+#: admin/partials/piggly-views-admin-welcome.php:26
+msgid "Welcome"
+msgstr "Bem-vindo"
+
 #: admin/partials/piggly-views-admin-welcome.php:31
 msgid ""
 "It will store all views for a Single Post. Below you can configure it to "
@@ -207,9 +227,6 @@ msgstr ""
 #~ "Um jeito fácil de obter as postagens mais visualizadas é utilizando a "
 #~ "função global piggly_view_collection. O valor padrão para os dias é 30 e "
 #~ "para a quantidade de publicação é 5."
-
-#~ msgid "Welcome"
-#~ msgstr "Bem-vindo"
 
 #~ msgid ""
 #~ "Hello there! The Piggly View plugin is quite simple to use and minimalist."

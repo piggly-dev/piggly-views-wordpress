@@ -23,36 +23,10 @@
             PIGGLY <strong>VIEW</strong>
         </span>
 
-        <h1><?php _e( 'Welcome', PIGGLY_VIEWS_NAME ) ?></h1>
+        <h1><?php _e( 'What\'s new?', PIGGLY_VIEWS_NAME ) ?></h1>
 
-        <p><?php _e('Hello there! The Piggly View plugin is quite simple to use.', PIGGLY_VIEWS_NAME );?></p>
-
-        <ol>
-            <li><?php _e('It will store all views for a Single Post. Below you can configure it to ignore views to logged users.', PIGGLY_VIEWS_NAME ); ?></li>
-            <li><?php _e('In the Posts View Table you will see the View column. Below you can remove it.', PIGGLY_VIEWS_NAME ); ?></li>
-            <li><?php _e('All views will be cached for 24 hours. Below you can disabled it or change the flush cache hour.', PIGGLY_VIEWS_NAME ); ?></li>
-        </ol>
-
-        <ul>
-            <li><?php _e('You can use the shortcode <code>[piggly_view]</code> to get views to the current post OR use <code>[piggly_view id="post_id"]</code> to a specific post.', PIGGLY_VIEWS_NAME ); ?></li>
-            <li><?php _e('You can get a collection of most viewed posts by using the method <code>piggly_view_collection($limit,$days,$types)</code>. Where <code>$days</code> is the range between NOW and X(<code>$days</code>) days, <code>$limit</code> is the number of posts and <code>$types</code> is one or more post types slug into an array, such as: <code>post</code>, <code>page</code> or <code>attachment</code>.', PIGGLY_VIEWS_NAME ); ?></li>
-        </ul>
-
-        <h2><?php _e('Most Viewed') ?></h2>
-
-        <p><?php _e('An easy way to get the most viewed posts is using the global function <code>piggly_view_collection()</code>. The default days values is 30 and default limit value is 5.') ?></p>
-
-<pre style="margin: 24px 0; padding: 24px; background: #ececec;">
-// <?php _e('10 most viewed posts in the last 180 days.') ?>
-
-$most_viewed = piggly_view_collection( 10, 180 );
-
-if ( !empty( $most_viewed ) ) :
-    foreach ( $most_viewed as $post ) :
-        $postID = $post->post_id;
-    endforeach;
-endif;
-</pre>
+        <p><?php _e('A new feature was added! Now you can select one or more post type when getting a collection with <code>piggly_views_colletion</code>', PIGGLY_VIEWS_NAME );?></p>
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58.42 19.27">
             <circle cx="31.4" cy="11.45" r="7.82" style="fill:#cbe00e"/><circle cx="50.6" cy="11.45" r="7.82" style="fill:#22adc2"/><polygon points="8.14 9.59 4.47 3.66 20 3.66 20 19.19 4.47 19.19 9.27 11.52 8.14 9.59" style="fill:#ff4e50"/><path d="M25.37,44.14H6.79l4.68-7.58a1.09,1.09,0,1,1,1.85,1.15L10.7,42H23.19V28.6H10.7l2.64,4.27A1.09,1.09,0,1,1,11.49,34l-4.7-7.6H25.37Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M37.51,43.94a1.08,1.08,0,0,1-1.06-.83,1.09,1.09,0,0,1,.8-1.32,6.71,6.71,0,1,0-3.14,0,1.09,1.09,0,1,1-.51,2.12,8.91,8.91,0,1,1,4.16,0Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M54.88,44.16A8.9,8.9,0,0,1,52.8,26.61a1.09,1.09,0,0,1,.51,2.12,6.71,6.71,0,1,0,3.14,0A1.09,1.09,0,1,1,57,26.61a8.9,8.9,0,0,1-2.08,17.55Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/>
         </svg>
