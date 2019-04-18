@@ -36,9 +36,10 @@
         <ul>
             <li><?php _e('You can use the shortcode <code>[piggly_view]</code> to get views to the current post OR use <code>[piggly_view id="post_id"]</code> to a specific post.', PIGGLY_VIEWS_NAME ); ?></li>
             <li><?php _e('You can get a collection of most viewed posts by using the method <code>piggly_view_collection($limit,$days,$types)</code>. Where <code>$days</code> is the range between NOW and X(<code>$days</code>) days, <code>$limit</code> is the number of posts and <code>$types</code> is one or more post types slug into an array, such as: <code>post</code>, <code>page</code> or <code>attachment</code>.', PIGGLY_VIEWS_NAME ); ?></li>
+            <li><?php _e('You can use the shortcode <code>[piggly_views_collection limit="X" days="X" types="post, page, attachment"]</code> to get a collection of most viewed posts returning the template you\'ve set in configurations.', PIGGLY_VIEWS_NAME ); ?></li>
         </ul>
 
-        <h2><?php _e('Most Viewed') ?></h2>
+        <h2><?php _e('Most Viewed', PIGGLY_VIEWS_NAME) ?></h2>
 
         <p><?php _e('An easy way to get the most viewed posts is using the global function <code>piggly_view_collection()</code>. The default days values is 30 and default limit value is 5.') ?></p>
 
@@ -53,6 +54,42 @@ if ( !empty( $most_viewed ) ) :
     endforeach;
 endif;
 </pre>
+        
+        <p><?php _e('In the other side, you can use the shortcode <code>[piggly_views_collection limit="10" days="180" types="post"]</code> to return the default template.', PIGGLY_VIEWS_NAME); ?></p>
+
+        <label for="<?=PIGGLY_VIEWS_NAME.'_template'?>"><?php _e( 'Default Template', PIGGLY_VIEWS_NAME ); ?></label>
+        <br/>
+        <p><?php _e('When you use <code>[piggly_views_collection]</code> shortcode, it will return the following template for each post. Customize CSS as your needs by using <code>.pgl-views-post</code> as parent.', PIGGLY_VIEWS_NAME) ?>:</p>
+
+        <ul>
+            <li><code>{{thumbnail}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post thumnail url', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{link}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the permanent link', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{title}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post title', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{category}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the category name', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{date}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post date', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{author}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post author display name', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{index}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post index in the range, starts in 1', PIGGLY_VIEWS_NAME); ?>;</li>
+        </ul>
+        <pre>
+&lt;a href="{{link}}" title="{{title}}" rel="bookmark" class="pgl-views-post"&gt;
+    &lt;div class="left"&gt;
+        &lt;div class="cover" style="background-image: url({{thumbnail}});" data-item="{{index}}"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="right"&gt;
+        &lt;h3 class="title"&gt;{{title}}&lt;/h3&gt;
+        &lt;div class="prop"&gt;
+            &lt;span class="category"&gt;{{category}}&lt;/span&gt;
+            &lt;span class="author"&gt;{{author}}&lt;/span&gt;
+            &lt;span class="date"&gt;{{date}}&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/a&gt;
+        </pre>
+        
+        <h2><?php _e('Rate Us', PIGGLY_VIEWS_NAME) ?></h2>
+        
+        <p style="text-align: center;"><?php _e('If you liked, please, don\'t forget to rating us. <3', PIGGLY_VIEWS_NAME); ?></p>
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58.42 19.27">
             <circle cx="31.4" cy="11.45" r="7.82" style="fill:#cbe00e"/><circle cx="50.6" cy="11.45" r="7.82" style="fill:#22adc2"/><polygon points="8.14 9.59 4.47 3.66 20 3.66 20 19.19 4.47 19.19 9.27 11.52 8.14 9.59" style="fill:#ff4e50"/><path d="M25.37,44.14H6.79l4.68-7.58a1.09,1.09,0,1,1,1.85,1.15L10.7,42H23.19V28.6H10.7l2.64,4.27A1.09,1.09,0,1,1,11.49,34l-4.7-7.6H25.37Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M37.51,43.94a1.08,1.08,0,0,1-1.06-.83,1.09,1.09,0,0,1,.8-1.32,6.71,6.71,0,1,0-3.14,0,1.09,1.09,0,1,1-.51,2.12,8.91,8.91,0,1,1,4.16,0Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M54.88,44.16A8.9,8.9,0,0,1,52.8,26.61a1.09,1.09,0,0,1,.51,2.12,6.71,6.71,0,1,0,3.14,0A1.09,1.09,0,1,1,57,26.61a8.9,8.9,0,0,1-2.08,17.55Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/>
         </svg>

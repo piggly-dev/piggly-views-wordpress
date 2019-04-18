@@ -7,10 +7,16 @@ The plugin is quite simple to use. See below.
 2. In the Posts View Table you will see the View column. You can remove it in configurations.
 3. All views will be cached for 24 hours. You can disabled it or change the flush cache hour.
 
+For now, **Piggly Views** is available in:
+
+* English,
+* Portuguese Brazilian.
+
 ## Some additional resources
 
-* You can use the shortcode `[piggly_view]` to get views to the current post OR use `[piggly_view id="post_id"]` to a specific post. It will return the number of views following the format set in the settings.
+* You can use the shortcode `[piggly_views]` to get views to the current post OR use `[piggly_views id="post_id"]` to a specific post. It will return the number of views following the format set in the settings.
 * You can get a collection of most viewed posts by using the method `piggly_view_collection($limit,$days)`. Where `$days` is the range between NOW and X(`$days`) days, `$limit` is the number of posts and `$types` is one or more post types slug into an array, such as: `post`, `page` or `attachment`.
+* You can use the shortcode `[piggly_views_collection limit="X" days="X" types="post, page, attachment"]` to get a collection of most viewed posts returning the default template.
 
 ## Getting the most viewed posts
 
@@ -25,6 +31,26 @@ if ( !empty( $most_viewed ) ) :
         $postID = $post->post_id;
     endforeach;
 endif;
+```
+
+In the other side, you can use the shortcode `[piggly_views_collection limit="10" days="180" types="post"]` to return the default template.
+
+When you use `[piggly_views_collection]` shortcode, it will return the following template for each post. Customize CSS as your needs by using `.pgl-views-post` as parent.
+
+```
+<a href="{{link}}" title="{{title}}" rel="bookmark" class="post">
+	<div class="left">
+		<div class="cover" style="background-image: url({{thumbnail}});" data-item="{{index}}"></div>
+	</div>
+	<div class="right">
+		<h3 class="title">{{title}}</h3>
+		<div class="prop">
+			<span class="category">{{category}}</span>
+			<span class="author">{{author}}</span>
+			<span class="date">{{date}}</span>
+		</div>
+	</div>
+</a>
 ```
 
 ## How to Install
@@ -62,6 +88,9 @@ From your WordPress administration panel go to `Plugins > Installed Plugins` and
 * Keep options and/or table when uninstall the plugin.
 
 ### Changelog
+
+#### 1.1.0
+Added the shortcode `[piggly_views_collection]` to return a collection based in a default template.
 
 #### 1.0.1
 Now you can select one or more post type when getting a collection with `piggly_views_colletion`.

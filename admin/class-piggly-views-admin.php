@@ -298,7 +298,7 @@ class PigglyViews_Admin
             if ( isset ( $keep_db ) ) :
                 $current_settings['keep_db'] = $keep_db === 0 ? false : true;
             endif;
-            
+
             PigglyViews_Settings::save_settings( $current_settings );
             $updated = true;        
         endif;

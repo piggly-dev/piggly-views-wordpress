@@ -7,6 +7,7 @@
  *
  * @link       https://dev.piggly.com.br/
  * @since      1.0.0
+ * @since      1.1.0 Added template data settings.
  *
  * @package    PigglyViews
  * @subpackage PigglyViews/admin/partials
@@ -36,11 +37,12 @@
         <ul>
             <li><?php _e('You can use the shortcode <code>[piggly_view]</code> to get views to the current post OR use <code>[piggly_view id="post_id"]</code> to a specific post. It will return the number of views following the format set in the settings.', PIGGLY_VIEWS_NAME ); ?></li>
             <li><?php _e('You can get a collection of most viewed posts by using the method <code>piggly_view_collection($limit,$days,$types)</code>. Where <code>$days</code> is the range between NOW and X(<code>$days</code>) days, <code>$limit</code> is the number of posts and <code>$types</code> is one or more post types slug into an array, such as: <code>post</code>, <code>page</code> or <code>attachment</code>.', PIGGLY_VIEWS_NAME ); ?></li>
+            <li><?php _e('You can use the shortcode <code>[piggly_views_collection limit="X" days="X" types="post, page, attachment"]</code> to get a collection of most viewed posts returning the template you\'ve set in configurations.', PIGGLY_VIEWS_NAME ); ?></li>
         </ul>
 
-        <h2><?php _e('Most Viewed') ?></h2>
+        <h2><?php _e('Most Viewed', PIGGLY_VIEWS_NAME) ?></h2>
 
-        <p><?php _e('An easy way to get the most viewed posts is using the global function <code>piggly_view_collection()</code>. The default days values is 30 and default limit value is 5.') ?></p>
+        <p><?php _e('An easy way to get the most viewed posts is using the global function <code>piggly_view_collection()</code>. The default days values is 30 and default limit value is 5.', PIGGLY_VIEWS_NAME) ?></p>
 
 <pre style="margin: 24px 0; padding: 24px; background: #ececec;">
 // <?php _e('10 most viewed posts in the last 180 days.') ?>
@@ -53,8 +55,39 @@ if ( !empty( $most_viewed ) ) :
     endforeach;
 endif;
 </pre>
+        
+        <p><?php _e('In the other side, you can use the shortcode <code>[piggly_views_collection limit="10" days="180" types="post"]</code> to return the default template.', PIGGLY_VIEWS_NAME); ?></p>
 
-        <h2><?php _e('Settings') ?></h2>
+        <label for="<?=PIGGLY_VIEWS_NAME.'_template'?>"><?php _e( 'Default Template', PIGGLY_VIEWS_NAME ); ?></label>
+        <br/>
+        <p><?php _e('When you use <code>[piggly_views_collection]</code> shortcode, it will return the following template for each post. Customize CSS as your needs by using <code>.pgl-views-post</code> as parent.', PIGGLY_VIEWS_NAME) ?>:</p>
+
+        <ul>
+            <li><code>{{thumbnail}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post thumnail url', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{link}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the permanent link', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{title}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post title', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{category}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the category name', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{date}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post date', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{author}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post author display name', PIGGLY_VIEWS_NAME); ?>;</li>
+            <li><code>{{index}}</code>: <?php _e('Will be replaced with', PIGGLY_VIEWS_NAME); echo ' '; _e('the post index in the range, starts in 1', PIGGLY_VIEWS_NAME); ?>;</li>
+        </ul>
+        <pre>
+&lt;a href="{{link}}" title="{{title}}" rel="bookmark" class="pgl-views-post"&gt;
+    &lt;div class="left"&gt;
+        &lt;div class="cover" style="background-image: url({{thumbnail}});" data-item="{{index}}"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="right"&gt;
+        &lt;h3 class="title"&gt;{{title}}&lt;/h3&gt;
+        &lt;div class="prop"&gt;
+            &lt;span class="category"&gt;{{category}}&lt;/span&gt;
+            &lt;span class="author"&gt;{{author}}&lt;/span&gt;
+            &lt;span class="date"&gt;{{date}}&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/a&gt;
+        </pre>
+            
+        <h2><?php _e('Settings', PIGGLY_VIEWS_NAME) ?></h2>
 
         <form method="POST">
             <div class="divisor"></div>
@@ -89,6 +122,10 @@ endif;
             <?php wp_nonce_field( PIGGLY_VIEWS_NAME.'_saving', PIGGLY_VIEWS_NAME.'_option_page' ); ?>
             <input type="submit" value="<?php _e( 'Save', PIGGLY_VIEWS_NAME ); ?>" class="button button-primary button-large">
         </form>
+        
+        <h2><?php _e('Rate Us', PIGGLY_VIEWS_NAME) ?></h2>
+        
+        <p style="text-align: center;"><?php _e('If you liked, please, don\'t forget to rating us. <3', PIGGLY_VIEWS_NAME); ?></p>
         
     </div>
     

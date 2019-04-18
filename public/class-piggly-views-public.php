@@ -7,6 +7,7 @@
  *
  * @since      1.0.0
  * @since      1.0.1                            Upgraded to get different types of posts.
+  * @since     1.1.0                            Added [piggly_views_collection] and enabled counter without AJAX.
  * @package    PigglyViews
  * @subpackage PigglyViews/public
  * @author     Piggly DEV <dev@piggly.com.br>
@@ -76,6 +77,7 @@ class PigglyViews_Public
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.1.0 Only loads AJAX script when a cache server is enabled.
      */
     public function enqueue_scripts() 
     {
@@ -83,7 +85,7 @@ class PigglyViews_Public
         
         $ignore_logged = PigglyViews_Settings::current_settings()['disable_admin'];
         
-        //if ( ( ( defined( 'WP_CACHE' ) && WP_CACHE ) || defined('WPFC_MAIN_PATH') ) ) :
+        if ( ( ( defined( 'WP_CACHE' ) && WP_CACHE ) || defined('WPFC_MAIN_PATH') ) ) :
             if ( $ignore_logged && is_user_logged_in() ) :
                 return;
             endif;
@@ -92,7 +94,7 @@ class PigglyViews_Public
                 wp_enqueue_script( $this->plugin_name.'_counter', plugin_dir_url( __FILE__ ) . 'js/piggly-views-cache.js', array( 'jquery' ), $this->version, true );
                 wp_localize_script( $this->plugin_name.'_counter', 'pigglyCore', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => intval( $post->ID ), 'enabled' => ( is_singular() || is_page() ) ? '1' : '0'  ) );
             endif;
-        //endif;
+        endif;
     }
     
     /**
@@ -100,27 +102,29 @@ class PigglyViews_Public
      * @return  void
      * @access  public
      * @since   1.0.0
+     * @since   1.1.0 Added [piggly_views_collection] and enabled counter without AJAX.
      */
     public function init ()
     {
         add_shortcode ( 'piggly_views', array( &$this, 'shortcode') );
+        add_shortcode ( 'piggly_views_collection', array( &$this, 'shortcode_collection') );
         
         $ignore_logged = PigglyViews_Settings::current_settings()['disable_admin'];
         
-        //if ( ( ( defined( 'WP_CACHE' ) && WP_CACHE ) || defined('WPFC_MAIN_PATH') ) ) :
+        if ( ( ( defined( 'WP_CACHE' ) && WP_CACHE ) || defined('WPFC_MAIN_PATH') ) ) :
             if ( $ignore_logged && is_user_logged_in() ) :
                 return;
             endif;
             
             add_action ( 'wp_ajax_piggly_views_counter', array( &$this, 'hits_ajax' ) );
             add_action ( 'wp_ajax_nopriv_piggly_views_counter', array( &$this, 'hits_ajax' ) );
-        /*else :
+        else :
             if ( $ignore_logged && is_user_logged_in() ) :
                 return;
             endif;
             
             add_action ( 'wp_head', array( &$this, 'hits' ), 12 );
-        endif;*/
+        endif;
     }
     
     /**
@@ -149,6 +153,68 @@ class PigglyViews_Public
         endif;
         
         return 0;
+    }
+    
+    
+    /**
+     * Create the SHORTCODE [piggly_views_collection limit="X" days="X" types="post, page, attachment"].
+     * 
+     * @global  object      $post       Post object.
+     * @param   arrray      $atts       Shortcode attributes.
+     * @param   string      $content    Shortcode content.
+     * @return  int
+     * @access  public
+     * @since   1.1.0
+     */
+    public function shortcode_collection ( $atts, $content = null )
+    {        
+        $atts = 
+            shortcode_atts 
+            (
+                array 
+                ( 
+                    'limit' => 5,
+                    'days' => 30,
+                    'types' => ''
+                ),
+                $atts
+            );
+        
+        $output         = '';
+        $no_whitespaces = preg_replace( '/\s*,\s*/', ',', filter_var( $atts['types'], FILTER_SANITIZE_STRING ) );
+        $types          = explode( ',', $no_whitespaces );
+        $types          = isset ( $types[0] ) && $types[0] === '' ? array() : $types;
+        
+        $most_viewed = $this->collection( $atts['limit'], $atts['days'], $types );
+        
+        if ( !empty( $most_viewed ) ) :
+            $template = '<a href="{{link}}" title="{{title}}" rel="bookmark" class="post"><div class="left"><div class="cover" style="background-image: url({{thumbnail}});" data-item="{{index}}"></div></div><div class="right"><h3 class="title">{{title}}</h3><div class="prop"><span class="category">{{category}}</span><span class="author">{{author}}</span><span class="date">{{date}}</span></div></div></a>';
+            $index    = 1;
+            
+            foreach( $most_viewed as $post ) :
+                $postID   = $post->post_id;
+                $url      = wp_get_attachment_image_src(wp_get_attachment_url( get_post_thumbnail_id($postID) ))[0];
+                $link     = get_permalink($postID);
+                $title    = get_the_title($postID);
+                $category = get_the_category($postID);
+                $date     = get_the_date( 'd M y', $postID);
+                $author   = get_the_author_meta('display_name', $post->post_author);
+                
+                $template = str_replace( '{{thumbnail}}', $url, $template );
+                $template = str_replace( '{{link}}', $link, $template );
+                $template = str_replace( '{{title}}', $title, $template );
+                $template = str_replace( '{{category}}', $category[0]->name, $template );
+                $template = str_replace( '{{date}}', $date, $template );
+                $template = str_replace( '{{author}}', $author, $template );
+                $template = str_replace( '{{index}}', $index, $template );
+                
+                $output .= ' '.$template.' ';    
+
+                $index++;            
+            endforeach;
+        endif;
+        
+        return $output;
     }
 
     /**
@@ -232,7 +298,7 @@ class PigglyViews_Public
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pigglyviews';
-        
+       
         if ( !empty($types) ) :
             $types_ = [];
         

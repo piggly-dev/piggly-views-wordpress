@@ -25,7 +25,7 @@
 
         <h1><?php _e( 'What\'s new?', PIGGLY_VIEWS_NAME ) ?></h1>
 
-        <p><?php _e('A new feature was added! Now you can select one or more post type when getting a collection with <code>piggly_views_colletion</code>', PIGGLY_VIEWS_NAME );?></p>
+        <p><?php _e('Now you can use the shortcode <code>[piggly_views_collection limit="X" days="X" types="post, page, attachment"]</code> to get a collection of most viewed posts returning the default template.', PIGGLY_VIEWS_NAME );?></p>
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58.42 19.27">
             <circle cx="31.4" cy="11.45" r="7.82" style="fill:#cbe00e"/><circle cx="50.6" cy="11.45" r="7.82" style="fill:#22adc2"/><polygon points="8.14 9.59 4.47 3.66 20 3.66 20 19.19 4.47 19.19 9.27 11.52 8.14 9.59" style="fill:#ff4e50"/><path d="M25.37,44.14H6.79l4.68-7.58a1.09,1.09,0,1,1,1.85,1.15L10.7,42H23.19V28.6H10.7l2.64,4.27A1.09,1.09,0,1,1,11.49,34l-4.7-7.6H25.37Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M37.51,43.94a1.08,1.08,0,0,1-1.06-.83,1.09,1.09,0,0,1,.8-1.32,6.71,6.71,0,1,0-3.14,0,1.09,1.09,0,1,1-.51,2.12,8.91,8.91,0,1,1,4.16,0Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/><path d="M54.88,44.16A8.9,8.9,0,0,1,52.8,26.61a1.09,1.09,0,0,1,.51,2.12,6.71,6.71,0,1,0,3.14,0A1.09,1.09,0,1,1,57,26.61a8.9,8.9,0,0,1-2.08,17.55Z" transform="translate(-6.79 -26.37)" style="fill:#324454"/>
